@@ -1,0 +1,31 @@
+﻿{
+  "name": "tamako-api",
+  "version": "1.0.1",
+  "description": "A package for using the Tamako API Easily!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \" no test specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BearTS/tamako-api/.git"
+  },
+  "keywords": [
+    "API",
+    "TAMAKOAPI",
+    "BearTS",
+    "Tamako Bot",
+    "chatbot",
+    "dog api",
+    "cat api"
+  ],
+  "author": "Bear#3437 <bear@tamako.tech, https://tamako.tech>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/BearTS/tamako-api/issues"
+  },
+  "homepage": "https://github.com/BearTS/tamako-api#readme",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+}
