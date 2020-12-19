@@ -26,7 +26,7 @@ Quick [Tamako API](https://api.tamako.tech) wrapper for beginners.
 
 const { TAMAKOAPI } =  require("tamako-api");
 
-const  tamako  =  new  API;
+const  tamako  =  new  TAMAKOAPI;
 
 
 
