@@ -35,24 +35,6 @@ class TAMAKOAPI extends EventEmitter{
     }
 
 
-
-/**image - Returns an image of the mentioned category
- *
- */
-async image(category){
-    const res = await fetch(`${base}/img?category=${encodeURIComponent(category)}`);
-    if(res.status == 401){
-          this.emit("error", "Check With Bear#3437");
-        return undefined;
-    }
-    const response = await res.json();
-    if(response.error) {
-        this.emit('error', response.error);
-        return undefined;
-    }
-    return response.link;
-}
-
     /**animquote - Returns a animequote along with the name of the anime and character who spoke it
      *
      *
