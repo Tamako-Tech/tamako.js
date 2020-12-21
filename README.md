@@ -60,23 +60,6 @@ Default values: `name`: Tamako, `gender`: female, `userid`: 123456
 
 `joke()`  - Returns a joke
 
-# Image API
-
-`image(<category>)` - Returns an object containing information about the category
-
-### Accepted Values
-
-- Dog
-- Cat
-- Panda
-- Red_panda
-- Fox
-- Birb
-- Koala
-- Kangaroo
-- Racoon
-- Whale
-- Pikachu
 
 # Animal Facts API
 
