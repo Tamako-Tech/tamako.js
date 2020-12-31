@@ -2,6 +2,8 @@
 # Tamako-API
 
 Quick [Tamako API](https://api.tamako.tech) wrapper for beginners.
+
+
 ![Tamako-API](https://nodei.co/npm/tamako-api.png)
 
 
