@@ -25,7 +25,7 @@ const { TAMAKOAPI } = require("tamako-api");
 const tamako = new TAMAKOAPI;
 
 // Use the chatbot
-// Note: Authkey and BID are important, you should store them
+// Note: Username, id, and secret are important, you should store them
 // in an environment variable wheneve possible
 
 const username = process.env.TAMAKO_USERNAME;
