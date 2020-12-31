@@ -33,7 +33,7 @@ const id = process.env.TAMAKO_ID;
 const secret = process.env.TAMAKO_SECRET;
 const message = 'Hello there';
 
-tamako.chatbot(auth, bid, message).then((response) => {
+tamako.chatbot(username, id, secret, message).then((response) => {
    console.log(response);
 });
 
