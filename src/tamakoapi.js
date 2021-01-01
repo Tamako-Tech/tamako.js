@@ -4,40 +4,72 @@ const fetch = require("node-fetch");
 let token;
 const EventEmitter = require("events");
 class TAMAKOAPI extends EventEmitter{
+    constructor(options = {}){
+        super();
+        
+        if (typeof options !== 'object'){
+          throw new err(`TAMAKOAPI: Expected object, received ${typeof(options)}`);
+        };
+        
+        this.username = options.username;
+        this.id = options.id;
+        this.secret = options.secret;
+        
+    };
 
 
-    /**chatbot- Message for AI Chatbot
-     *
+    /**Message for AI Chatbot
+     * @name chatbot
      * @param {string} message Message for chatbot
      * @param {string} name Name for the chatbot
      * @param {string} gender Gender of the chatbot
      * @param {string} user User id who triggered the chatbot
      */
 
-    async chatbot(username, id, secret, message, name='Tamako', gender='female', user='123456'){
-        if(!message) throw new err("No message was provided");
-        if(typeof(name)!= 'string') throw new err(`Expected name to be string, recieved ${typeof(name)}`);
-        if(typeof(gender)!= 'string') throw new err(`Expected gender to be string, recieved ${typeof(gender)}`);
-        if(typeof(user)!= 'string') throw new err(`Expected user id to be string, recieved ${typeof(user)}`);
-
-        const res = await fetch(`${base}/chat?username=${encodeURIComponent(username)}&appid=${encodeURIComponent(id)}&secret=${encodeURIComponent(secret)}&name=${encodeURIComponent(name)}&gender=${encodeURIComponent(gender)}&user=${encodeURIComponent(user)}&message=${encodeURIComponent(message)}`,{
-        });
-        if(res.status == 401){
-            this.emit("error", "Invalid API key was provided");
+    async chatbot(message, name='Tamako', gender='female', user='123456'){
+        if(!message){
+            throw new err("No message was provided");
+        };
+        
+        const param = { name, gender, user };
+        
+        for (const [key, iter] of Object.entries(param)){
+            if (typeof iter !== 'string'){
+                throw new err(`Expected ${iter} to be of type string, received ${typeof(name)}`);
+            } else {
+                param[key] = encodeURIComponent(iter);
+            };
+        };
+        
+        const username = encodeURIComponent(this.username);
+        const appid = encodURIComponent(this.id);
+        const secret = encodeURIComponent(this.secret);
+        
+        const res = await fetch(`${base}/chat?username=${username}&appid=${appid}&secret=${secret}&name=${param.name}&gender=${param.gender}&user=${param.user}&message=${message}`);
+        
+        if (res.status === 401){
+            this.emit('error', 'Invalid API key was provided');
             return undefined;
-        }
+        };
+        
         const response = await res.json();
+        
         if(response.error) {
-            this.emit('error', response.response);
+            this.emit('error', response.error);
             return undefined;
         }
+        
         return response.response;
-    }
+    };
 
 
-    /**animquote - Returns a animequote along with the name of the anime and character who spoke it
-     *
-     *
+    /**Returns a animequote along with the name of the anime and character who spoke it
+     * @name aniquote
+     * @returns {animequote} object An anime quote object.
+     * @returns {animequote.anime} string The anime from where the quote was taken from
+     * @returns {animequote.character} string The character who spoke this quote
+     * @returns {animequote.quote} string An anime quote
+     * @returns {animequote.api} object An API object
      */
     async animequote(){
 
@@ -55,58 +87,65 @@ class TAMAKOAPI extends EventEmitter{
     };
 
 
-/**animalfact - Returns a fact about animal
- *
- */
-async animalfact(name){
-    const res = await fetch(`${base}/animalfact?name=${encodeURIComponent(name)}`);
-    if(res.status == 401){
-          this.emit("error", "Check With Bear#3437");
-        return undefined;
-    }
-    const response = await res.json();
-    if(response.error) {
-        this.emit('error', response.error);
-        return undefined;
-    }
-    return response.fact;
-}
+     /**Returns a fact about animal
+     * @name animalfact
+     * @param {string} name The animal to query
+     * @returns {string} facts Fact about the animal
+     */
+    async animalfact(name){
+        const res = await fetch(`${base}/animalfact?name=${encodeURIComponent(name)}`);
+        if(res.status == 401){
+            this.emit("error", "Check With Bear#3437");
+            return undefined;
+        }
+  
+        const response = await res.json();
+        if(response.error) {
+            this.emit('error', response.error);
+            return undefined;
+        }
+        return response.fact;
+    };
 
-/**Joke - Returns a joke
- *
- */
-async joke(){
-    const res = await fetch(`${base}/joke`);
-    if(res.status == 401){
-          this.emit("error", "Check With Bear#3437");
-        return undefined;
-    }
-    const response = await res.json();
-    if(response.error) {
-        this.emit('error', response.error);
-        return undefined;
-    }
-    return response.joke;
-}
 
-/**Lyrics - Returns lyrics of a song
- *
- * @param {string} lyrics Song Name
- */
-async lyrics(query){
-    if(!query) throw new err("No query was provided to search");
-    const res = await fetch(`${base}/lyrics?name=${encodeURIComponent(query)}`);
-    if(res.status == 401){
-        this.emit("error", "Check With Bear#3437");
-        return undefined;
-    }
-    const response = await res.json();
-    if(response.error) {
-        this.emit('error', response.error);
-        return undefined;
-    }
-    return response;
-};
+    /**Returns a joke
+    * @name joke
+    * @returns {string} Joke
+    */
+    async joke(){
+        const res = await fetch(`${base}/joke`);
+        if(res.status == 401){
+            this.emit("error", "Check With Bear#3437");
+            return undefined;
+        };
+        const response = await res.json();
+        if(response.error) {
+            this.emit('error', response.error);
+            return undefined;
+        };
+        
+        return response.joke;
+    };
+
+     /**Returns lyrics of a song
+     * @name lyrics
+     * @param {string} lyrics Title of the song
+     * @returns {string} lyrics of the song
+     */
+    async lyrics(query){
+        if(!query) throw new err("No query was provided to search");
+        const res = await fetch(`${base}/lyrics?name=${encodeURIComponent(query)}`);
+        if(res.status == 401){
+            this.emit("error", "Check With Bear#3437");
+            return undefined;
+        }
+        const response = await res.json();
+        if(response.error) {
+            this.emit('error', response.error);
+            return undefined;
+        }
+        return response;
+    };
 
     /**pokemon - Returns data about a pokemon
      *
@@ -126,8 +165,5 @@ async lyrics(query){
         }
         return response;
     };
-
-
-
 }
 module.exports = TAMAKOAPI;
