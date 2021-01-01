@@ -21,19 +21,19 @@ Quick [Tamako API](https://api.tamako.tech) wrapper for beginners.
 // Destructure the class from the library
 const { TAMAKOAPI } = require("tamako-api");
 
-// Instantiate the class before you can use it
-const tamako = new TAMAKOAPI;
-
-// Use the chatbot
 // Note: Username, id, and secret are important, you should store them
 // in an environment variable wheneve possible
 
-const username = process.env.TAMAKO_USERNAME;
-const id = process.env.TAMAKO_ID;
-const secret = process.env.TAMAKO_SECRET;
-const message = 'Hello there';
+// Instantiate the class before you can use it
+// Parameters are only required if you want to use the chatbot method
+// You can get your own username, id, and secret here -> https://appcenter.theskyfallen.com/
+const tamako = new TAMAKOAPI({
+ username: process.env.TAMAKO_USERNAME,
+ id: process.env.TAMAKO_ID,
+ secret: process.env.TAMAKO_SECRET
+});
 
-tamako.chatbot(username, id, secret, message).then((response) => {
+tamako.chatbot('hello there').then((response) => {
    console.log(response);
 });
 
@@ -43,22 +43,20 @@ tamako.on("error", error => {
 });
 ```
 
-# Functions
+# Authenticated Functions
 
-## chatbot(username, id, secret, message, name, gender, userid)
+## chatbot(message, name, gender, userid)
+Note: Requires authentication
 Returns message sent by the chatbot or undefined (if error occurs)
 	
 | Parameter | Type | Default | Optional | Description |
 | - | - | - | :-: | - |
-| username | string | none | ❌ | You can get your own authkey [here](https://appcenter.theskyfallen.com/)
-| id | string | none | ❌ | You can get your bid [here](https://appcenter.theskyfallen.com/)
-| secret | string | none | ❌ | You can get your own secret [here](https://appcenter.theskyfallen.com/)
 | message | string | none | ❌ | The message you want the chatbot to reply with 
 | name | string | Tamako | ✔️ | The name of the chatbot
 | gender | string | female | ✔️ | The gender of the chatbot
 | userid | string | 123456 | ✔️ | Unique ID to tell users using the endpoint apart
 
-
+# Unauthenticated Functions
 
 ## lyrics(name)
 Returns lyrics of the song from the name
@@ -68,6 +66,9 @@ Returns lyrics of the song from the name
 
 Example
 ```js
+const { TAMAKOAPI } = require('tamako-api');
+const tamako = new TAMAKOAPI();
+
 tamako.lyrics('In the End')
 .then(res => {
 const lyrics = res.lyrics;
@@ -88,6 +89,9 @@ Returns an object containing information about the Pokemon
 
 Example
 ```js
+const { TAMAKOAPI } = require('tamako-api');
+const tamako = new TAMAKOAPI();
+
 tamako.pokemon('pikachu')
 .then(res => console.log(res));
 ```
@@ -98,6 +102,9 @@ Returns a random joke
 
 Example
 ```js
+const { TAMAKOAPI } = require('tamako-api');
+const tamako = new TAMAKOAPI();
+
 tamako.joke()
 .then(joke => console.log(joke));
 ```
@@ -113,6 +120,9 @@ Returns a fact of the mentioned animal
 
 Example
 ```js
+const { TAMAKOAPI } = require('tamako-api');
+const tamako = new TAMAKOAPI();
+
 tamako.animalfact('dog')
 .then(res => console.log(res))
 ```
