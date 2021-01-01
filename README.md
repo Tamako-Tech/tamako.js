@@ -3,6 +3,9 @@
 
 Quick [Tamako API](https://api.tamako.tech) wrapper for beginners.
 
+[![App Version](https://img.shields.io/npm/v/tamako-api)](https://www.npmjs.com/package/tamako-api)
+[![Node](https://img.shields.io/node/v/tamako-api?color=green&logo=Node.js&logoColor=white)]()
+[![License](https://img.shields.io/github/license/BearTS/tamako-api?color=blue&label=License)](https://github.com/BearTS/tamako-api/blob/master/LICENSE)
 
 ![Tamako-API](https://nodei.co/npm/tamako-api.png)
 
