@@ -35,7 +35,7 @@ class TAMAKOAPI extends EventEmitter{
         
         for (const [key, iter] of Object.entries(param)){
             if (typeof iter !== 'string'){
-                throw new err(`Expected ${iter} to be of type string, received ${typeof(name)}`);
+                throw new err(`Expected ${iter} to be of type string, received ${typeof(iter)}`);
             } else {
                 param[key] = encodeURIComponent(iter);
             };
