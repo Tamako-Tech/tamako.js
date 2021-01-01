@@ -22,7 +22,7 @@ Quick [Tamako API](https://api.tamako.tech) wrapper for beginners.
 const { TAMAKOAPI } = require("tamako-api");
 
 // Note: Username, id, and secret are important, you should store them
-// in an environment variable wheneve possible
+// in an environment variable whenever possible and be kept private at all times
 
 // Instantiate the class before you can use it
 // Parameters are only required if you want to use the chatbot method
