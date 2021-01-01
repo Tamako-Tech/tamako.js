@@ -42,10 +42,10 @@ class TAMAKOAPI extends EventEmitter{
         };
         
         const username = encodeURIComponent(this.username);
-        const appid = encodURIComponent(this.id);
+        const appid = encodeURIComponent(this.id);
         const secret = encodeURIComponent(this.secret);
         
-        const res = await fetch(`${base}/chat?username=${username}&appid=${appid}&secret=${secret}&name=${param.name}&gender=${param.gender}&user=${param.user}&message=${message}`);
+        const res = await fetch(`${base}/chat?username=${username}&appid=${appid}&appsecret=${secret}&name=${param.name}&gender=${param.gender}&user=${param.user}&message=${message}`);
         
         if (res.status === 401){
             this.emit('error', 'Invalid API key was provided');
