@@ -51,13 +51,15 @@ tamako.on("error", error => {
 ## chatbot(message, name, gender, userid)
 Note: Requires authentication
 Returns message sent by the chatbot or undefined (if error occurs)
-	
+
 | Parameter | Type | Default | Optional | Description |
 | - | - | - | :-: | - |
-| message | string | none | ❌ | The message you want the chatbot to reply with 
+| message | string | none | ❌ | The message you want the chatbot to reply with
 | name | string | Tamako | ✔️ | The name of the chatbot
 | gender | string | female | ✔️ | The gender of the chatbot
 | userid | string | 123456 | ✔️ | Unique ID to tell users using the endpoint apart
+| prefix | string | Not Set By Developer | ✔️ | It should be your bot's prefix
+| dev | string | Bear#3437 | ✔️ | Name Of the developer of the bot
 
 # Unauthenticated Functions
 

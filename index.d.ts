@@ -1,7 +1,7 @@
 declare module "tamako-api" {
 export class API {
 
-    public chatbot(message: string, name: string, gender: string, userid: string): Promise<string>;
+    public chatbot(message: string, name: string, gender: string, userid: string, prefix: string, dev: string): Promise<string>;
     public lyrics(name: string): Promise<Object>;
     public pokemon(name: string): Promise<Object>;
     public animequote(): Promise<String>;

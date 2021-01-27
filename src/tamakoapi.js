@@ -6,15 +6,15 @@ const EventEmitter = require("events");
 class TAMAKOAPI extends EventEmitter{
     constructor(options = {}){
         super();
-        
+
         if (typeof options !== 'object'){
           throw new err(`TAMAKOAPI: Expected object, received ${typeof(options)}`);
         };
-        
+
         this.username = options.username;
         this.id = options.id;
         this.secret = options.secret;
-        
+
     };
 
 
@@ -26,13 +26,13 @@ class TAMAKOAPI extends EventEmitter{
      * @param {string} user User id who triggered the chatbot
      */
 
-    async chatbot(message, name='Tamako', gender='female', user='123456'){
+    async chatbot(message, name='Tamako', gender='female', user='123456', prefix='Not Set by Developer', dev='Bear#3437'){
         if(!message){
             throw new err("No message was provided");
         };
-        
+
         const param = { name, gender, user };
-        
+
         for (const [key, iter] of Object.entries(param)){
             if (typeof iter !== 'string'){
                 throw new err(`Expected ${iter} to be of type string, received ${typeof(iter)}`);
@@ -40,25 +40,25 @@ class TAMAKOAPI extends EventEmitter{
                 param[key] = encodeURIComponent(iter);
             };
         };
-        
+
         const username = encodeURIComponent(this.username);
         const appid = encodeURIComponent(this.id);
         const secret = encodeURIComponent(this.secret);
-        
-        const res = await fetch(`${base}/chat?username=${username}&appid=${appid}&appsecret=${secret}&name=${param.name}&gender=${param.gender}&user=${param.user}&message=${message}`);
-        
+
+        const res = await fetch(`${base}/chat?username=${username}&appid=${appid}&appsecret=${secret}&name=${param.name}&gender=${param.gender}&prefix=${param.prefix}&dev=${param.dev}&user=${param.user}&message=${message}`);
+
         if (res.status === 401){
             this.emit('error', 'Invalid API key was provided');
             return undefined;
         };
-        
+
         const response = await res.json();
-        
+
         if(response.error) {
             this.emit('error', response.error);
             return undefined;
         }
-        
+
         return response.response;
     };
 
@@ -98,7 +98,7 @@ class TAMAKOAPI extends EventEmitter{
             this.emit("error", "Check With Bear#3437");
             return undefined;
         }
-  
+
         const response = await res.json();
         if(response.error) {
             this.emit('error', response.error);
@@ -123,7 +123,7 @@ class TAMAKOAPI extends EventEmitter{
             this.emit('error', response.error);
             return undefined;
         };
-        
+
         return response.joke;
     };
 
