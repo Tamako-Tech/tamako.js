@@ -119,9 +119,9 @@ tamako.joke()
 Returns a fact of the mentioned animal
 
 `name` can be any of the following:
-| | | | | | | | | | | |
-| - | - | - | - | - | - | - | - | - | - | - |
-| dog | cat | panda | fox | birb | koala | kangaroo | racoon | elephant | giraffe | whale |
+| | | | | | | | | | | | |
+| - | - | - | - | - | - | - | - | - | - | - | - |
+| bird | bunny | cat | dog | fox | giraffe | kangaroo | koala | panda | racoon | whale | elephant |
 
 Example
 ```js
@@ -129,6 +129,23 @@ const { TAMAKOAPI } = require('tamako-api');
 const tamako = new TAMAKOAPI();
 
 tamako.animalfact('dog')
+.then(res => console.log(res))
+```
+
+## image(name)
+Returns an image link
+
+`name` can be any of the following:
+| | | | | | | | |
+| - | - | - | - | - | - | - | - |
+| bird | dog | cat | dog | fox | koala | panda | redpanda |
+
+Example
+```js
+const { TAMAKOAPI } = require('tamako-api');
+const tamako = new TAMAKOAPI();
+
+tamako.image('dog')
 .then(res => console.log(res))
 ```
 
