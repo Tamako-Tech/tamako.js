@@ -93,7 +93,7 @@ class TAMAKOAPI extends EventEmitter{
      * @returns {string} facts Fact about the animal
      */
     async animalfact(name){
-        const res = await fetch(`${base}/animalfact?name=${encodeURIComponent(name)}`);
+        const res = await fetch(`${base}/animalfact/${encodeURIComponent(name)}`);
         if(res.status == 401){
             this.emit("error", "Check With Bear#3437");
             return undefined;
