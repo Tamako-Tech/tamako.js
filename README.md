@@ -136,9 +136,9 @@ tamako.animalfact('dog')
 Returns an image link
 
 `type` can be any of the following:
-| | | | | | | | |
-| - | - | - | - | - | - | - | - |
-| bird | dog | cat | dog | fox | koala | panda | redpanda |
+| | | | | | | | | | |
+| - | - | - | - | - | - | - | - | - | - |
+| bird | dog | cat | dog | fox | koala | panda | redpanda | tamako | mai |
 
 Example
 ```js
@@ -155,7 +155,7 @@ Returns a gif image link
 `type` can be any of the following:
 | | | | | | | | | | | | | | | | |
 | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - |
-| baka | blush | cry | disgust | feed | happy | holdhands | hug | kiss | pat | poke | slap | sleep | smug | wave | wink
+| baka | blush | cry | disgust | feed | happy | holdhands | hug | kiss | pat | poke | slap | sleep | smug | wave | wink |
 
 Example
 ```js
