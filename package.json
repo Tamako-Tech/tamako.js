@@ -1,6 +1,6 @@
 ﻿{
   "name": "tamako-api",
-  "version": "1.2.5",
+  "version": "1.3.2",
   "description": "A package for using the Tamako API Easily!",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BearTS/tamako-api/.git"
+    "url": "git+https://github.com/Tamako-Tech/tamako-api/.git"
   },
   "keywords": [
     "API",
@@ -22,9 +22,9 @@
   "author": "Bear#3437 <bear@tamako.tech, https://tamako.tech>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/BearTS/tamako-api/issues"
+    "url": "https://github.com/Tamako-Tech/tamako-api/issues"
   },
-  "homepage": "https://github.com/BearTS/tamako-api#readme",
+  "homepage": "https://github.com/Tamako-Tech/tamako-api#readme",
   "dependencies": {
     "node-fetch": "^2.6.1"
   }

@@ -132,13 +132,13 @@ tamako.animalfact('dog')
 .then(res => console.log(res))
 ```
 
-## image(name)
+## image(type)
 Returns an image link
 
-`name` can be any of the following:
-| | | | | | | | |
-| - | - | - | - | - | - | - | - |
-| bird | dog | cat | dog | fox | koala | panda | redpanda |
+`type` can be any of the following:
+| | | | | | | | | | |
+| - | - | - | - | - | - | - | - | - | - |
+| bird | dog | cat | dog | fox | koala | panda | redpanda | tamako | mai |
 
 Example
 ```js
@@ -146,6 +146,23 @@ const { TAMAKOAPI } = require('tamako-api');
 const tamako = new TAMAKOAPI();
 
 tamako.image('dog')
+.then(res => console.log(res))
+```
+
+## roleplay(type)
+Returns a gif image link
+
+`type` can be any of the following:
+| | | | | | | | | | | | | | | | |
+| - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - |
+| baka | blush | cry | disgust | feed | happy | holdhands | hug | kiss | pat | poke | slap | sleep | smug | wave | wink |
+
+Example
+```js
+const { TAMAKOAPI } = require('tamako-api');
+const tamako = new TAMAKOAPI();
+
+tamako.roleplay('hug')
 .then(res => console.log(res))
 ```
 

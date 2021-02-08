@@ -113,12 +113,33 @@ class TAMAKOAPI extends EventEmitter {
 
 
     /**Returns an image
-     * @name animalfact
-     * @param {string} name Type to query
+     * @name image
+     * @param {string} type Type of query
      * @returns {string} url URL link to the type of image
      */
-    async image(name) {
-        const res = await fetch(`${base}/image/${encodeURIComponent(name)}`);
+    async image(type) {
+        const res = await fetch(`${base}/image/${type}`);
+        if (res.status == 401) {
+            this.emit("error", "Check With Bear#3437");
+            return undefined;
+        }
+
+        const response = await res.json();
+        if (response.error) {
+            this.emit('error', response.error);
+            return undefined;
+        }
+        return response.url;
+    };
+
+
+    /**Returns an Roleplay gif link
+     * @name roleplay
+     * @param {string} type Type of query
+     * @returns {string} url GIF link to the type of roleplay
+     */
+    async roleplay(type) {
+        const res = await fetch(`${base}/roleplay/${type}`);
         if (res.status == 401) {
             this.emit("error", "Check With Bear#3437");
             return undefined;

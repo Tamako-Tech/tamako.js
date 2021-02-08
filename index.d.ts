@@ -6,7 +6,8 @@ export class API {
     public pokemon(name: string): Promise<Object>;
     public animequote(): Promise<String>;
     public animalfact(name: string): Promise<Object>;
-    public image(name: string): Promise<Object>;
+    public image(type: string): Promise<Object>;
+    public roleplay(type: string): Promise<Object>;
     public joke(): Promise<String>;
     public on(error): error
 }
