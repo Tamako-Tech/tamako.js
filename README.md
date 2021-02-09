@@ -153,9 +153,9 @@ tamako.image('dog')
 Returns a gif image link
 
 `type` can be any of the following:
-| | | | | | | | | | | | | | | | |
-| - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - |
-| baka | blush | cry | disgust | feed | happy | holdhands | hug | kiss | pat | poke | slap | sleep | smug | wave | wink |
+| | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
+| - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - |- |
+| baka | bite | blush | celebrate | cry | dance | disgust | eat | explode | feed | fistbump | happy | highfive | holdhands | hug | inhale | kill | kiss | lick | midfing | pat | poke | punch | slap | sleep | smug | tickle | wave | wink |
 
 Example
 ```js
