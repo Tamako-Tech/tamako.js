@@ -24,6 +24,8 @@ class TAMAKOAPI extends EventEmitter {
      * @param {string} name Name for the chatbot
      * @param {string} gender Gender of the chatbot
      * @param {string} user User id who triggered the chatbot
+     * @param {string} prefix Prefix of your bot
+     * @param {string} dev Name of the Developer of the bot
      */
 
     async chatbot(message, name = 'Tamako', gender = 'female', user = '123456', prefix = 'Not Set by Developer', dev = 'Bear#3437') {
@@ -34,7 +36,9 @@ class TAMAKOAPI extends EventEmitter {
         const param = {
             name,
             gender,
-            user
+            user,
+            prefix,
+            dev
         };
 
         for (const [key, iter] of Object.entries(param)) {
