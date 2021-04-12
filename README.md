@@ -31,9 +31,9 @@ const { TAMAKOAPI } = require("tamako-api");
 // Parameters are only required if you want to use the chatbot method
 // You can get your own username, id, and secret here -> https://appcenter.theskyfallen.com/
 const tamako = new TAMAKOAPI({
- username: process.env.TAMAKO_USERNAME,
- id: process.env.TAMAKO_ID,
- secret: process.env.TAMAKO_SECRET
+ svcid: process.env.TAMAKO_SERVICEID,
+ prvid: process.env.TAMAKO_PRIVATEID,
+ svcsecret: process.env.TAMAKO_SECRET
 });
 
 tamako.chatbot('hello there').then((response) => {
