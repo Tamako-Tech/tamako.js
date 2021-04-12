@@ -11,9 +11,9 @@ class TAMAKOAPI extends EventEmitter {
             throw new err(`TAMAKOAPI: Expected object, received ${typeof(options)}`);
         };
 
-        this.username = options.username;
-        this.id = options.id;
-        this.secret = options.secret;
+        this.svcid = options.svcid;
+        this.prvid = options.prvid;
+        this.svcsecret = options.svcsecret;
 
     };
 
@@ -49,11 +49,11 @@ class TAMAKOAPI extends EventEmitter {
             };
         };
 
-        const username = encodeURIComponent(this.username);
-        const appid = encodeURIComponent(this.id);
-        const secret = encodeURIComponent(this.secret);
+        const svcid = encodeURIComponent(this.svcid);
+        const prvid = encodeURIComponent(this.prvid);
+        const svcsecret = encodeURIComponent(this.svcsecret);
 
-        const res = await fetch(`${base}/chat?username=${username}&appid=${appid}&appsecret=${secret}&name=${param.name}&gender=${param.gender}&prefix=${param.prefix}&dev=${param.dev}&user=${param.user}&message=${message}`);
+        const res = await fetch(`${base}/chat?svcid=${svcid}&prvid=${prvid}&svcsecret=${svcsecret}&name=${param.name}&gender=${param.gender}&prefix=${param.prefix}&dev=${param.dev}&user=${param.user}&message=${message}`);
 
         if (res.status === 401) {
             this.emit('error', 'Invalid API key was provided');
