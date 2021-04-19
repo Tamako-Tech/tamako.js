@@ -18,9 +18,9 @@ class TAMAKOAPI extends EventEmitter {
         };
         
         // Add chatbot's static data directly into the constructor
-        this.chatbot = {};
+        this.cboptions = {};
         for (const [args, altr] of [['name', 'Tamako'], ['gender', 'female'], ['prefix', 'Not Set By Developer'], ['dev', 'Bear#3437']]){
-            this.chatbot[args] = (options.chatbot||{})[args] || altr;
+            this.cboptions[args] = (options.chatbot||{})[args] || altr;
         };
     };
 
@@ -54,7 +54,7 @@ class TAMAKOAPI extends EventEmitter {
             } else if (prop === 'user' && !options[prop]){
                 throw new err(`TAMAKOAPI#chatbot: options.user: This field is required.`);
             } else {
-                param.push(`${prop}=${options[prop] ? encodeURIComponent(options[prop]) : this.chatbot[prop]}`);
+                param.push(`${prop}=${options[prop] ? encodeURIComponent(options[prop]) : this.cboptions[prop]}`);
             };
         };
         
