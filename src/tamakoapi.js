@@ -1,73 +1,103 @@
 const err = require('./APIError');
 const base = 'http://api.tamako.tech/api'
 const fetch = require("node-fetch");
-let token;
 const EventEmitter = require("events");
+
+let token;
+
 class TAMAKOAPI extends EventEmitter {
     constructor(options = {}) {
         super();
-
+        
+        // Specify in Error message where it went wrong
         if (typeof options !== 'object') {
-            throw new err(`TAMAKOAPI: Expected object, received ${typeof(options)}`);
+            throw new err(`TAMAKOAPI#options: Expected object, received ${typeof options}`);
         };
-
-        this.svcid = options.svcid;
-        this.prvid = options.prvid;
-        this.svcsecret = options.svcsecret;
-
+        
+        // Encode the components on the go while instantiating this constructor
+        for (const args of ['svcid', 'prvid', 'svcsecret']){
+            this[args] = options[args] ? encodeURIComponent(option[args]) : undefined;
+        };
+        
+        // Add chatbot's static data directly into the constructor
+        this.chatbot = {};
+        for (const [args, altr] of [['name', 'Tamako'], ['gender', 'female'], ['prefix', 'Not Set By Developer'], ['dev', 'Bear#3437']]){
+            this.chatbot[args] = (options.chatbot||{})[args] || altr;
+        };
     };
 
 
-    /**Message for AI Chatbot
+    /**
+     * Message for AI Chatbot
      * @name chatbot
-     * @param {string} message Message for chatbot
-     * @param {string} name Name for the chatbot
-     * @param {string} gender Gender of the chatbot
-     * @param {string} user User id who triggered the chatbot
-     * @param {string} prefix Prefix of your bot
-     * @param {string} dev Name of the Developer of the bot
-     */
-
-    async chatbot(message, name = 'Tamako', gender = 'female', user = '123456', prefix = 'Not Set by Developer', dev = 'Bear#3437') {
+     * @param {message} string Message for chatbot
+     * @param {options} object The options for this chatbot
+     * @param {options.name} string The name for the chatbot
+     * @param {options.gender} string The gender for the chatbot
+     * @param {options.user} string The user identifier for the message sender
+     * @param {options.prefix} string The prefix this bot currently uses
+     * @param {options.dev} string The developer for this bot
+     * @example 
+     * TAMAKOAPI.chatbot('A super cool message', {
+     *    name: 'ExampleBot',
+     *    gender: 'Female'
+     * });
+     */ 
+    async chatbot(message, options) {
         if (!message) {
-            throw new err("No message was provided");
+            throw new err(`TAMAKOAPI#chatbot: Required message parameter, received none.`);
         };
-
-        const param = {
-            name,
-            gender,
-            user,
-            prefix,
-            dev
-        };
-
-        for (const [key, iter] of Object.entries(param)) {
-            if (typeof iter !== 'string') {
-                throw new err(`Expected ${iter} to be of type string, received ${typeof(iter)}`);
+        
+        const param = ['svcid','prvid','svcsecret'].map(param => `${param}=${this[param]}`);
+        
+        for (const prop of ['name', 'gender', 'user', 'prefix', 'dev']){
+            if (options[prop] && typeof options[prop] !== 'string'){
+                throw new err(`Expected ${prop} to be of type string, received ${typeof prop}`);
+            } else if (prop === 'user' && !options[prop]){
+                throw new err(`TAMAKOAPI#chatbot: options.user: This field is required.`);
             } else {
-                param[key] = encodeURIComponent(iter);
+                param.push(`${prop}=${options[prop] ? encodeURIComponent(options[prop]) : this.chatbot[prop]}`);
             };
         };
-
-        const svcid = encodeURIComponent(this.svcid);
-        const prvid = encodeURIComponent(this.prvid);
-        const svcsecret = encodeURIComponent(this.svcsecret);
-
-        const res = await fetch(`${base}/chat?svcid=${svcid}&prvid=${prvid}&svcsecret=${svcsecret}&name=${param.name}&gender=${param.gender}&prefix=${param.prefix}&dev=${param.dev}&user=${param.user}&message=${message}`);
-
-        if (res.status === 401) {
+        
+        const res = await fetch(`${base}/chat?${param.join('&')}&message=${encodeURIComponent(message)}`);
+        
+        if (res.status === 401){
             this.emit('error', 'Invalid API key was provided');
-            return undefined;
+            return Promise.reject('Invalid API key was provided');
+        };
+        
+        const { error, response } = await res.json();
+        
+        if (error){
+            this.emit('error', error);
+            return Promise.reject(error);
         };
 
+        return Promise.resolve(response);
+    };
+    
+    
+    /**Internal
+     * Internal function for fetching an endpoint
+     * @private
+     */
+    async __fetch(endpoint, param = '', prop){
+        const res = await fetch(`${base}/${encodeURIComponent(endpoint + '/' + param)}`);
+        if (res.status == 401) {
+            this.emit("error", "Check With Bear#3437");
+            return Promise.reject('Check With Bear#3437');
+        }
         const response = await res.json();
-
         if (response.error) {
             this.emit('error', response.error);
-            return undefined;
+            return Promise.reject(response.error);
         }
-
-        return response.response;
+        if (!Object.entries(response).filter(([key, val]) => key !== 'api' && !!val).length){
+            this.emit('error', 'Not Found.')
+            return Promise.reject('Not Found')
+        };
+        return Promise.resolve(prop ? response[prop] : response);
     };
 
 
@@ -79,19 +109,8 @@ class TAMAKOAPI extends EventEmitter {
      * @returns {animequote.quote} string An anime quote
      * @returns {animequote.api} object An API object
      */
-    async animequote() {
-
-        const res = await fetch(`${base}/anime-quote`);
-        if (res.status == 401) {
-            this.emit("error", "Check With Bear#3437");
-            return undefined;
-        }
-        const response = await res.json();
-        if (response.error) {
-            this.emit('error', response.error);
-            return undefined;
-        }
-        return response;
+    animequote() {
+        return this.__fetch('anime-quote');
     };
 
 
@@ -101,18 +120,7 @@ class TAMAKOAPI extends EventEmitter {
      * @returns {string} facts Fact about the animal
      */
     async animalfact(name) {
-        const res = await fetch(`${base}/animalfact/${encodeURIComponent(name)}`);
-        if (res.status == 401) {
-            this.emit("error", "Check With Bear#3437");
-            return undefined;
-        }
-
-        const response = await res.json();
-        if (response.error) {
-            this.emit('error', response.error);
-            return undefined;
-        }
-        return response.fact;
+        return this.__fetch('animalfact', name, 'fact');
     };
 
 
@@ -122,18 +130,7 @@ class TAMAKOAPI extends EventEmitter {
      * @returns {string} url URL link to the type of image
      */
     async image(type) {
-        const res = await fetch(`${base}/image/${type}`);
-        if (res.status == 401) {
-            this.emit("error", "Check With Bear#3437");
-            return undefined;
-        }
-
-        const response = await res.json();
-        if (response.error) {
-            this.emit('error', response.error);
-            return undefined;
-        }
-        return response.url;
+        return this.__fetch('image', type, 'url');
     };
 
 
@@ -143,18 +140,7 @@ class TAMAKOAPI extends EventEmitter {
      * @returns {string} url GIF link to the type of roleplay
      */
     async roleplay(type) {
-        const res = await fetch(`${base}/roleplay/${type}`);
-        if (res.status == 401) {
-            this.emit("error", "Check With Bear#3437");
-            return undefined;
-        }
-
-        const response = await res.json();
-        if (response.error) {
-            this.emit('error', response.error);
-            return undefined;
-        }
-        return response.url;
+        return this.__fetch('roleplay', type, 'url');
     };
 
 
@@ -163,18 +149,7 @@ class TAMAKOAPI extends EventEmitter {
      * @returns {string} Joke
      */
     async joke() {
-        const res = await fetch(`${base}/joke`);
-        if (res.status == 401) {
-            this.emit("error", "Check With Bear#3437");
-            return undefined;
-        };
-        const response = await res.json();
-        if (response.error) {
-            this.emit('error', response.error);
-            return undefined;
-        };
-
-        return response.joke;
+        return this.__fetch('joke', null, 'joke');
     };
 
     /**Returns lyrics of a song
@@ -183,37 +158,15 @@ class TAMAKOAPI extends EventEmitter {
      * @returns {string} lyrics of the song
      */
     async lyrics(query) {
-        if (!query) throw new err("No query was provided to search");
-        const res = await fetch(`${base}/lyrics?name=${encodeURIComponent(query)}`);
-        if (res.status == 401) {
-            this.emit("error", "Check With Bear#3437");
-            return undefined;
-        }
-        const response = await res.json();
-        if (response.error) {
-            this.emit('error', response.error);
-            return undefined;
-        }
-        return response;
+        return this.__fetch(`lyrics?name=${query}`);
     };
 
     /**pokemon - Returns data about a pokemon
      *
      * @param {string} name Name of the pokemon
      */
-    async pokemon(query) {
-        if (!query) throw new err("No query was provided to search");
-        const res = await fetch(`${base}/pokedex?pokemon=${encodeURIComponent(query.toLowerCase())}`);
-        if (res.status == 401) {
-            this.emit("error", "Check With Bear#3437");
-            return undefined;
-        }
-        const response = await res.json();
-        if (response.error) {
-            this.emit('error', response.error);
-            return undefined;
-        }
-        return response;
+    async pokemon(query = '') {
+        return this.__fetch(`pokedex?pokemon=${String(query).toLowerCase()}`);
     };
 }
 module.exports = TAMAKOAPI;
