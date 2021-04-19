@@ -41,7 +41,7 @@ class TAMAKOAPI extends EventEmitter {
      *    gender: 'Female'
      * });
      */ 
-    async chatbot(message, options) {
+    async chatbot(message, options = {}) {
         if (!message) {
             throw new err(`TAMAKOAPI#chatbot: Required message parameter, received none.`);
         };
