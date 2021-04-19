@@ -3,8 +3,6 @@ const base = 'http://api.tamako.tech/api'
 const fetch = require("node-fetch");
 const EventEmitter = require("events");
 
-let token;
-
 class TAMAKOAPI extends EventEmitter {
     constructor(options = {}) {
         super();
