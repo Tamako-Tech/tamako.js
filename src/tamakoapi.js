@@ -14,13 +14,13 @@ class TAMAKOAPI extends EventEmitter {
         
         // Encode the components on the go while instantiating this constructor
         for (const args of ['svcid', 'prvid', 'svcsecret']){
-            this[args] = options[args] ? encodeURIComponent(option[args]) : undefined;
+            this[args] = options[args] ? encodeURIComponent(options[args]) : undefined;
         };
         
         // Add chatbot's static data directly into the constructor
         this.cboptions = {};
         for (const [args, altr] of [['name', 'Tamako'], ['gender', 'female'], ['prefix', 'Not Set By Developer'], ['dev', 'Bear#3437']]){
-            this.cboptions[args] = (options.chatbot||{})[args] || altr;
+            this.cboptions[args] = encodeURIComponent((options.chatbot||{})[args]) || altr;
         };
     };
 
