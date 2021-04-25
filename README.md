@@ -33,7 +33,7 @@ const { TAMAKOAPI } = require("tamako-api");
 // chatbot parameter is optional
 const tamako = new TAMAKOAPI({
  svcid: process.env.TAMAKO_SERVICEID,
- prvid: process.env.TAMAKO_PRIVATEID,
+ prvid: process.env.TAMAKO_PROVISIONID,
  svcsecret: process.env.TAMAKO_SECRET,
  chatbot: {
    name: "The name for the bot",
