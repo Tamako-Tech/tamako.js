@@ -81,7 +81,7 @@ class TAMAKOAPI extends EventEmitter {
      * @private
      */
     async __fetch(endpoint, param = '', prop){
-        const res = await fetch(`${base}/${encodeURIComponent(endpoint + '/' + param)}`);
+        const res = await fetch(`${base}/${endpoint}/${encodeURIComponent(param)}`);
         if (res.status == 401) {
             this.emit("error", "Check With Bear#3437");
             return Promise.reject('Check With Bear#3437');
