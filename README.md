@@ -30,15 +30,32 @@ const { TAMAKOAPI } = require("tamako-api");
 // Instantiate the class before you can use it
 // Parameters are only required if you want to use the chatbot method
 // You can get your own username, id, and secret here -> https://appcenter.theskyfallen.com/
+// chatbot parameter is optional
 const tamako = new TAMAKOAPI({
  svcid: process.env.TAMAKO_SERVICEID,
  prvid: process.env.TAMAKO_PRIVATEID,
- svcsecret: process.env.TAMAKO_SECRET
+ svcsecret: process.env.TAMAKO_SECRET,
+ chatbot: {
+   name: "The name for the bot",
+   gender: "The assumed gender of the bot",
+   prefix: "The prefix of your bot",
+   dev: "The creator of your bot (naturally it is you)"
+   }
 });
 
-tamako.chatbot('hello there').then((response) => {
+// Using default values for options found in tamako.cboptions
+tamako.chatbot('hello there', { user: '123456' }).then((response) => {
    console.log(response);
 });
+
+// Using own values without using the options found on tamako.cboptions
+tamako.chatbot('hello there', {
+   name: "The name for the bot",
+   gender: "The assumed gender of the bot",
+   user: "123456",
+   prefix: "The prefix of your bot",
+   dev: "The creator of your bot (naturally it is you)"
+}).then(response => console.log(response));
 
 // Fires whenever an error occurs
 tamako.on("error", error => {
@@ -48,18 +65,18 @@ tamako.on("error", error => {
 
 # Authenticated Functions
 
-## chatbot(message, name, gender, userid)
+## chatbot(message, options)
 Note: Requires authentication
 Returns message sent by the chatbot or undefined (if error occurs)
 
 | Parameter | Type | Default | Optional | Description |
 | - | - | - | :-: | - |
 | message | string | none | ❌ | The message you want the chatbot to reply with
-| name | string | Tamako | ✔️ | The name of the chatbot
-| gender | string | female | ✔️ | The gender of the chatbot
-| userid | string | 123456 | ✔️ | Unique ID to tell users using the endpoint apart
-| prefix | string | Not Set By Developer | ✔️ | It should be your bot's prefix
-| dev | string | Bear#3437 | ✔️ | Name Of the developer of the bot
+| options.name | string | Tamako | ✔️ | The name of the chatbot
+| options.gender | string | female | ✔️ | The gender of the chatbot
+| options.user | string | none | ❌ | Unique ID to tell users using the endpoint apart
+| options.prefix | string | Not Set By Developer | ✔️ | It should be your bot's prefix
+| options.dev | string | Bear#3437 | ✔️ | Name Of the developer of the bot
 
 # Unauthenticated Functions
 
