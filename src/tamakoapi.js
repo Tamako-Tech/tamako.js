@@ -81,7 +81,8 @@ class TAMAKOAPI extends EventEmitter {
      * @private
      */
     async __fetch(endpoint, param = '', prop){
-        const res = await fetch(`${base}/${encodeURIComponent(endpoint + '/' + param)}`);
+        // param must be encoded on their own function to prevent malformed urls
+        const res = await fetch(`${base}/${endpoint}/${param}`);
         if (res.status == 401) {
             this.emit("error", "Check With Bear#3437");
             return Promise.reject('Check With Bear#3437');
@@ -118,7 +119,7 @@ class TAMAKOAPI extends EventEmitter {
      * @returns {string} facts Fact about the animal
      */
     async animalfact(name) {
-        return this.__fetch('animalfact', name, 'fact');
+        return this.__fetch('animalfact', encodeURIComponent(name), 'fact');
     };
 
 
@@ -128,7 +129,7 @@ class TAMAKOAPI extends EventEmitter {
      * @returns {string} url URL link to the type of image
      */
     async image(type) {
-        return this.__fetch('image', type, 'url');
+        return this.__fetch('image', encodeURIComponent(type), 'url');
     };
 
 
@@ -138,7 +139,7 @@ class TAMAKOAPI extends EventEmitter {
      * @returns {string} url GIF link to the type of roleplay
      */
     async roleplay(type) {
-        return this.__fetch('roleplay', type, 'url');
+        return this.__fetch('roleplay', encodeURIComponent(type), 'url');
     };
 
 
@@ -156,7 +157,7 @@ class TAMAKOAPI extends EventEmitter {
      * @returns {string} lyrics of the song
      */
     async lyrics(query) {
-        return this.__fetch(`lyrics?name=${query}`);
+        return this.__fetch(`lyrics?name=${encodeURIComponent(query)}`);
     };
 
     /**pokemon - Returns data about a pokemon
@@ -164,7 +165,7 @@ class TAMAKOAPI extends EventEmitter {
      * @param {string} name Name of the pokemon
      */
     async pokemon(query = '') {
-        return this.__fetch(`pokedex?pokemon=${String(query).toLowerCase()}`);
+        return this.__fetch(`pokedex?pokemon=${encodeURIComponent(query.toLowerCase())}`);
     };
 }
 module.exports = TAMAKOAPI;
